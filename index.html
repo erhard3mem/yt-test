@@ -41,41 +41,22 @@
       // If there's an access token, try an API request.
       // Otherwise, start OAuth 2.0 flow.
       function trySampleRequest() {
-        var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
+        /*var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
         if (params && params['access_token']) {
           var xhr = new XMLHttpRequest();
-          
-          
-          /*
-          {
-            "snippet": {
-                "title": "Sample playlist created via API",
-                "description": "This is a sample playlist description.",
-                "tags": [
-                "sample playlist",
-                "API call"
-                ],
-                "defaultLanguage": "en"
-            },
-            "status": {
-                "privacyStatus": "private"
-            }
-        }*/
-          
-          
-          
-          xhr.open('POST',
-                            'https://youtube.googleapis.com/youtube/v3/playlists?part=snippet%2Cstatus&access_token=' + params['access_token']);
-          //    'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&' +
-            
-          xhr.onreadystatechange = function (e) {
-            if (xhr.readyState === 4 && xhr.status === 200) {
+                                   
+                xhr.open('POST',
+                                    'https://youtube.googleapis.com/youtube/v3/playlists?part=snippet%2Cstatus&access_token=' + params['access_token']);
+                //    'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&' +
+                    
+                xhr.onreadystatechange = function (e) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
 
-                debugger
+                        debugger
 
 
 
-              console.log(xhr.response);
+                    console.log(xhr.response);
             } else if (xhr.readyState === 4 && xhr.status === 401) {
               // Token invalid, so prompt for user permission.
               oauth2SignIn();
@@ -84,7 +65,35 @@
           xhr.send('{     "snippet": {         "title": "Sample playlist created via API",         "description": "This is a sample playlist description.",         "tags": [             "sample playlist",             "API call"         ],         "defaultLanguage": "en"     },     "status": {         "privacyStatus": "private"     } }');
         } else {
           oauth2SignIn();
-        }
+        }*/
+            
+            const query =  "Depeche Mode - Enjoy the Silence";
+
+            // Erstellen einer neuen XHR-Anfrage
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=1&access_token=${params['access_token']}`, true);
+           // xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken); // Zugangstoken im Header
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.items && response.items.length > 0) {
+                    const videoId = response.items[0].id.videoId;
+                    console.log("Video ID:", videoId);
+                    } else {
+                    console.log("No videos found.");
+                    }
+                } else if (xhr.status === 401) {
+                    console.log("Unauthorized: Invalid or expired token.");
+                } else {
+                    console.log("Error:", xhr.responseText);
+                }
+                }
+            };
+
+            xhr.send();
+        
       }
     
       /*
