@@ -44,14 +44,16 @@
         return new Promise((resolve, reject) => {
           const params = JSON.parse(localStorage.getItem('oauth2-test-params'));
 
-                if (!params || !params['access_token']) {
-                    oauth2SignIn();
-                    return reject("User is not authenticated");
-                }  
+          if (!params || !params['access_token']) {
+              oauth2SignIn();
+              return reject("User is not authenticated");
+          }  
           
           const xhr = new XMLHttpRequest();
 
           const at = params['access_token'];
+
+          console.log(at);
 
             xhr.open('GET', `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=1&access_token=${at}`, true);
            // xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken); // Zugangstoken im Header
@@ -99,7 +101,7 @@
         // Parameters to pass to OAuth 2.0 endpoint.
         var params = {'client_id': YOUR_CLIENT_ID,
                       'redirect_uri': YOUR_REDIRECT_URI,
-                      'scope': 'https://www.googleapis.com/auth/youtube.force-ssl',
+                      'scope': 'https://www.googleapis.com/auth/youtube',
                       'state': state,
                       'include_granted_scopes': 'true',
                       'response_type': 'token'};
