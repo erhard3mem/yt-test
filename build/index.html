@@ -40,38 +40,10 @@
     
       // If there's an access token, try an API request.
       // Otherwise, start OAuth 2.0 flow.
-      function trySampleRequest() {
-        /*var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
-        if (params && params['access_token']) {
-          var xhr = new XMLHttpRequest();
-                                   
-                xhr.open('POST',
-                                    'https://youtube.googleapis.com/youtube/v3/playlists?part=snippet%2Cstatus&access_token=' + params['access_token']);
-                //    'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&' +
-                    
-                xhr.onreadystatechange = function (e) {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-
-                        debugger
-
-
-
-                    console.log(xhr.response);
-            } else if (xhr.readyState === 4 && xhr.status === 401) {
-              // Token invalid, so prompt for user permission.
-              oauth2SignIn();
-            }
-          };
-          xhr.send('{     "snippet": {         "title": "Sample playlist created via API",         "description": "This is a sample playlist description.",         "tags": [             "sample playlist",             "API call"         ],         "defaultLanguage": "en"     },     "status": {         "privacyStatus": "private"     } }');
-        } else {
-          oauth2SignIn();
-        }*/
-            
-            const query =  "Depeche Mode - Enjoy the Silence";
-
-            // Erstellen einer neuen XHR-Anfrage
+      function getYouTubeID(query) {      
+        return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
-            
+
             var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
             const at = params['access_token'];
 
@@ -85,6 +57,7 @@
                     if (response.items && response.items.length > 0) {
                     const videoId = response.items[0].id.videoId;
                     console.log("Video ID:", videoId);
+                    resolve(videoId);
                     } else {
                     console.log("No videos found.");
                     }
@@ -97,6 +70,7 @@
             };
 
             xhr.send();
+          });
         
       }
     
@@ -139,5 +113,11 @@
       }
     </script>
     
-    <button onclick="trySampleRequest();">Try sample request</button>
+    <script>
+      let query = "Depeche Mode - Enjoy the silence";
+      getYouTubeID(query).then(d=>{
+        console.log(d);
+      })
+
+    </script>
     </body></html>
