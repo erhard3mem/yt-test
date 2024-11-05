@@ -14,7 +14,7 @@
         if (params['state'] == localStorage.getItem('state')) {
           localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
     
-          trySampleRequest();
+         // trySampleRequest();
         } else {
           console.log('State mismatch. Possible CSRF attack');
         }
