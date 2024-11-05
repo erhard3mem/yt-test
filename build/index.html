@@ -40,7 +40,10 @@
     
       // If there's an access token, try an API request.
       // Otherwise, start OAuth 2.0 flow.
-      function getYouTubeID(query) {      
+      function getYouTubeID(query) {   
+        oauth2SignIn();
+        
+
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
 
@@ -114,6 +117,8 @@
     </script>
     
     <script>
+      oauth2SignIn();
+
       let query = "Depeche Mode - Enjoy the silence";
       getYouTubeID(query).then(d=>{
         console.log(d);
