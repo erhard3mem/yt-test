@@ -117,13 +117,15 @@
         document.body.appendChild(form);
         form.submit();
       }
+
+      function doRequest() {
+        let query = "Depeche Mode - Enjoy the silence";
+        getYouTubeID(query).then(d=>{
+          alert(d);
+          console.log(d);
+        })
+      }
     </script>
     
-    <script>
-      let query = "Depeche Mode - Enjoy the silence";
-      getYouTubeID(query).then(d=>{
-        console.log(d);
-      })
-
-    </script>
+    <button onclick="doRequest();">Try sample request</button>
     </body></html>
